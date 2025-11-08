@@ -39,6 +39,7 @@
         .search-box { display: flex; background-color: white; border-radius: 5px; overflow: hidden; }
         .search-box input { padding: 10px 15px; border: none; width: 100%; outline: none; color: var(--text-dark); }
         .search-box button { background-color: #0069d9; color: white; border: none; padding: 0 15px; cursor: pointer; font-size: 1.2em; }
+        .search-box button:hover { background-color: #0056b3; } /* Tambahkan hover */
         .header-nav a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
 
         .main-content { flex-grow: 1; padding: 40px 0; display: flex; flex-direction: column; align-items: center; }
@@ -64,6 +65,7 @@
         .avatar-placeholder { width: 100px; height: 100px; background-color: #e0e0e0; border-radius: 50%; margin: 0 auto 10px; display: flex; justify-content: center; align-items: center; font-size: 3em; color: #aaa; overflow: hidden; }
         .avatar-placeholder img { width: 100%; height: 100%; object-fit: cover; }
         .btn-pilih-gambar { background-color: var(--light-gray); border: 1px solid #ccc; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9em; color: var(--text-dark); margin-bottom: 5px; }
+        .btn-pilih-gambar:hover { background-color: #e6e6e6; } /* Tambahkan hover */
         #avatar-file-input { display: none; } 
 
         .btn-submit { width: 100%; padding: 15px; background-color: var(--primary-blue); color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: background-color 0.3s; }
@@ -139,7 +141,7 @@
         <div class="search-container">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Cari barang atau toko..." />
-                <button><i class="fas fa-search"></i></button>
+                <button id="searchButton"><i class="fas fa-search"></i></button> 
             </div>
         </div>
         <div class="header-nav">
@@ -307,7 +309,7 @@
                     // Simpan data toko ke localStorage
                     localStorage.setItem('lokamart_store_data', JSON.stringify(storeData));
 
-                    alert(`Registrasi Toko.html "${storeData.namaToko}" Berhasil! Anda akan diarahkan ke Dashboard Toko.`);
+                    alert(`Registrasi Toko "${storeData.namaToko}" Berhasil! Anda akan diarahkan ke Dashboard Toko.`);
                     
                     // Arahkan ke halaman Dashboard
                     window.location.href = 'Dasboard toko.html'; 
@@ -386,14 +388,27 @@
     </script>
 
     <script>
+        // Fungsi untuk mengarahkan ke halaman daftar.html dengan parameter pencarian
+        function performSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput.value.trim();
+            if (query !== "") {
+                window.location.href = `daftar.html?search=${encodeURIComponent(query)}`;
+            }
+        }
+
+        // 1. Event listener untuk tombol Enter di input
         document.getElementById('searchInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                const query = this.value.trim();
-                if (query !== "") {
-                    window.location.href = `daftar.html?search=${encodeURIComponent(query)}`;
-                }
+                performSearch();
             }
+        });
+        
+        // 2. Event listener untuk tombol pencarian (ikon kaca pembesar)
+        document.getElementById('searchButton').addEventListener('click', function(e) {
+            e.preventDefault();
+            performSearch();
         });
     </script>
 </body>
